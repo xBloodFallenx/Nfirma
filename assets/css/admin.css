@@ -1,0 +1,30 @@
+
+body,p,input {
+    margin: 0;
+    padding: 0;
+  }
+.title{
+    
+    font-family: 'Times New Roman', Times, serif;
+    color: black;
+    text-align: center;
+
+}
+
+.botones {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: black;
+    box-shadow: #f4f4f4;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+  }
+    
+  .botones:hover {
+    color: white;
+    background-color: rgb(185, 177, 177);
+  }
