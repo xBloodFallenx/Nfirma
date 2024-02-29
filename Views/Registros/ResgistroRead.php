@@ -24,6 +24,7 @@ $users = User::getAllUsers();
 				<table>
 					<thead>
 						<tr class="text-center roboto-medium">
+							<td>ID</td>
 							<td>Primer Nombre</td>
 							<td>Segundo Nombre</td>
 							<td>Primer Apellido</td>
@@ -43,6 +44,10 @@ $users = User::getAllUsers();
 					<tbody>
 						<?php foreach ($users as $userData): ?>
 							<tr class="text-center">
+								<td>
+									<?php echo $userData['idUser']; ?>
+								</td>
+
 								<td>
 									<?php echo $userData['Primer_Nombre']; ?>
 								</td>
@@ -87,7 +92,7 @@ $users = User::getAllUsers();
 								</td>
 
 								<td>
-									<a href="RegistroUpdate.php">
+									<a href="../../Views\Registros\RegistroUpdate.php">
 										<button class="botones">Editar Registros</button></a>
 
 								</td>

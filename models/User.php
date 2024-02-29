@@ -31,7 +31,11 @@ class User
         $Ext = null,
         $Ciudad = null,
         $Indicativo = null,
-        $Id_Cargo
+        $Id_Cargo = null,
+        $Id_Estado = null,
+        $id_Login = null
+
+
 
     ) {
         $this->dbh = DataBase::connection();
@@ -46,8 +50,15 @@ class User
         $this->Ciudad = $Ciudad;
         $this->Indicativo = $Indicativo;
         $this->Id_Cargo = $Id_Cargo;
+        $this->$Id_Estado = $Id_Estado;
+        $this->$id_Login = $id_Login;
+
 
     }
+
+
+
+
     public function setPrimerNombre($Primer_Nombre)
     {
         $this->Primer_Nombre = $Primer_Nombre;
@@ -271,12 +282,71 @@ class User
 
     //Actualizar User
 
-
-
-    public function UserUpdate()
+    public function getUserById($idUser)
     {
         try {
-            $sql = 'UPDATE user SET Primer_Nombre = ?, Segund_Nombre = ?, Primer_Apellido = ?, Segund_Apellido = ?, direccion = ?, Telefono_Cor = ?, Celular = ?, Ext = ?, Ciudad = ?, Indicativo = ?, Id_Cargo = ? WHERE id_Login = ?';
+            $sql = 'SELECT * FROM user WHERE idUser =: idUser';
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->bindValue(':idUser', $idUser);
+            $stmt->execute();
+            $upDate = $stmt->fetch();
+            $user = new User(
+                $upDate['Primer_Nombre'],
+                $upDate['Segund_Nombre'],
+                $upDate['Primer_Apellido'],
+                $upDate['Segund_Apellido'],
+                $upDate['direccion'],
+                $upDate['Telefono_Cor'],
+                $upDate['Celular'],
+                $upDate['Ext'],
+                $upDate['Ciudad'],
+                $upDate['Indicativo'],
+                $upDate['Id_Cargo'],
+                $upDate['Id_Estado'],
+                $upDate['id_Login']
+
+            );
+            return $user;
+        } catch (Exception $e) {
+        }
+        die($e->getMessage());
+    }
+
+    /*            
+                $user = $stmt->fetch(PDO::FETCH_ASSOC); */
+
+    // Verifica si se encontró un usuario con el ID proporcionado
+/*             if ($user) {
+
+                $this->Primer_Nombre = $user['Primer_Nombre'];
+                $this->Segund_Nombre = $user['Segund_Nombre'];
+                $this->Primer_Apellido = $user['Primer_Apellido'];
+                $this->Segund_Apellido = $user['Segund_Apellido'];
+                $this->direccion = $user['direccion'];
+                $this->Telefono_Cor = $user['Telefono_Cor'];
+                $this->Celular = $user['Celular'];
+                $this->Ext = $user['Ext'];
+                $this->Ciudad = $user['Ciudad'];
+                $this->Indicativo = $user['Indicativo'];
+                $this->Id_Cargo = $user['Id_Cargo'];
+                $this->Id_Estado = $user['Id_Estado'];
+                $this->id_Login = $user['id_Login'];
+
+                return $this;
+            } else {
+
+                return null;
+            }
+        } catch (PDOException $e) {
+            return null;
+        }
+    } */
+
+
+    public function userUpdate()
+    {
+        try {
+            $sql = 'UPDATE user SET Primer_Nombre = ?, Segund_Nombre = ?, Primer_Apellido = ?, Segund_Apellido = ?, direccion = ?, Telefono_Cor = ?, Celular = ?, Ext = ?, Ciudad = ?, Indicativo = ?, Id_Cargo = ?,  = ? WHERE idUser = ?';
 
             $stmt = $this->dbh->prepare($sql);
             $stmt->bindValue(1, $this->getPrimerNombre());
@@ -291,12 +361,10 @@ class User
             $stmt->bindValue(10, $this->getIndicativo());
             $stmt->bindValue(11, $this->getCargoId());
             $stmt->bindValue(12, $this->getLoginId());
-
             $stmt->execute();
 
-            return true;
-        } catch (PDOException $e) {
-            return false;
+        } catch (Exception $e) {
+            die($e->getMessage());
         }
     }
 }

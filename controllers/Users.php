@@ -29,7 +29,52 @@ class Users
             include 'Views/vistaFirma.php';
             exit();
         }
-    }//funcion para crear la firma a abase de una plantilla 
+
+
+    }
+    //Actualizacion De Registros 
+
+
+
+    public function userUpdate()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $user = new User;
+            $user = $user->getUserById($_GET["idUser"]);
+
+
+
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $user = new User(
+                    $_POST['Primer_Nombre'],
+                    $_POST['Segund_Nombre'],
+                    $_POST['Primer_Apellido'],
+                    $_POST['Segund_Apellido'],
+                    $_POST['direccion'],
+                    $_POST['Telefono_Cor'],
+                    $_POST['Celular'],
+                    $_POST['Ext'],
+                    $_POST['Ciudad'],
+                    $_POST['Indicativo'],
+                    $_POST['Id_Cargo'],
+                    $_POST['Id_Estado']
+                );
+                $user->userUpdate();
+                header("Locacion:?c=Users&a=ResgistroRead");
+            }
+
+
+
+
+
+
+        }
+    }
+
+
+
+
+    //funcion para crear la firma a abase de una plantilla 
     private function crearFirma($user)
     {
         $plantilla = imagecreatefromjpeg('assets/images/firma.jpeg');
